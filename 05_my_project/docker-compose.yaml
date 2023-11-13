@@ -1,0 +1,35 @@
+version: '3'
+services:
+  client:
+    # image?
+    image: node:16
+    container_name: geo_client
+    # are ports needed?
+    ports:
+      - 8080:8080
+    # where is the code?
+    volumes:
+      - type: bind
+        source: ./geo_client
+        target: /code
+    working_dir: /code
+    # what to do once the container has started?
+    command: bash -c "npm isntall && npm run dev"
+    depends_on:
+      - Server
+
+  Server:
+    # pick an image?
+    image: node:18
+    container_name: geo_server
+    # do we need to expose ports
+    ports:
+      - 3000:3000
+    # where does the code live
+    volumes:
+      - type: bind
+        source: ./geo_server
+        target: /code
+    working_dir: /code
+    # what to do once the container is up and running?
+    command: bash -c "npm install && npm run dev"
